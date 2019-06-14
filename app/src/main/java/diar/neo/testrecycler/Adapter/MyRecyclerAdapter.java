@@ -101,7 +101,7 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyViewHolder> {
 
     }
 
-    public void removeItem(int position) {
+    private void removeItem(int position) {
 
         mUsers.remove(position);
         notifyItemRemoved(position);

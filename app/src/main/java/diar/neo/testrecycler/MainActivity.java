@@ -9,6 +9,14 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.mikepenz.itemanimators.AlphaCrossFadeAnimator;
+import com.mikepenz.itemanimators.BaseItemAnimator;
+import com.mikepenz.itemanimators.DefaultAnimator;
+import com.mikepenz.itemanimators.ScaleUpAnimator;
+import com.mikepenz.itemanimators.SlideDownAlphaAnimator;
+import com.mikepenz.itemanimators.SlideInOutTopAnimator;
+import com.mikepenz.itemanimators.SlideRightAlphaAnimator;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,11 +44,24 @@ public class MainActivity extends AppCompatActivity {
 
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(myRecyclerAdapter);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setItemAnimator(new SlideRightAlphaAnimator() {
+        });
     }
 
     private void setUsers() {
 
+        mUsers.add(new User("amir", "amiri"));
+        mUsers.add(new User("reza", "rezayi"));
+        mUsers.add(new User("amir", "amiri"));
+        mUsers.add(new User("reza", "rezayi"));
+        mUsers.add(new User("amir", "amiri"));
+        mUsers.add(new User("reza", "rezayi"));
+        mUsers.add(new User("amir", "amiri"));
+        mUsers.add(new User("reza", "rezayi"));
+        mUsers.add(new User("amir", "amiri"));
+        mUsers.add(new User("reza", "rezayi"));
+        mUsers.add(new User("amir", "amiri"));
+        mUsers.add(new User("reza", "rezayi"));
         mUsers.add(new User("amir", "amiri"));
         mUsers.add(new User("reza", "rezayi"));
     }
