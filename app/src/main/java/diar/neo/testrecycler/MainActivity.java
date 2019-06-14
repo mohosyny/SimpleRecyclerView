@@ -4,10 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.RecyclerView.LayoutManager;
 
-import android.icu.lang.UScript;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,16 +17,19 @@ import diar.neo.testrecycler.Model.User;
 
 public class MainActivity extends AppCompatActivity {
 
-    List<User> mUsers;
+    List<User> mUsers = new ArrayList<>();
+    MyRecyclerAdapter myRecyclerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        setUsers();
+
 
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
 
-        MyRecyclerAdapter myRecyclerAdapter = new MyRecyclerAdapter(this, getUsers());
+        myRecyclerAdapter = new MyRecyclerAdapter(this, mUsers);
 
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
@@ -36,39 +39,26 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
     }
 
-    private List<User> getUsers() {
+    private void setUsers() {
 
-        mUsers = new ArrayList<>();
         mUsers.add(new User("amir", "amiri"));
         mUsers.add(new User("reza", "rezayi"));
-        mUsers.add(new User("ahmad", "ahmadi"));
-        mUsers.add(new User("mamad", "mamadi"));
-        mUsers.add(new User("hesam", "chepeli"));
-        mUsers.add(new User("amir", "amiri"));
-        mUsers.add(new User("reza", "rezayi"));
-        mUsers.add(new User("ahmad", "ahmadi"));
-        mUsers.add(new User("mamad", "mamadi"));
-        mUsers.add(new User("hesam", "chepeli"));
-        mUsers.add(new User("amir", "amiri"));
-        mUsers.add(new User("reza", "rezayi"));
-        mUsers.add(new User("ahmad", "ahmadi"));
-        mUsers.add(new User("mamad", "mamadi"));
-        mUsers.add(new User("hesam", "chepeli"));
-        mUsers.add(new User("amir", "amiri"));
-        mUsers.add(new User("reza", "rezayi"));
-        mUsers.add(new User("ahmad", "ahmadi"));
-        mUsers.add(new User("mamad", "mamadi"));
-        mUsers.add(new User("hesam", "chepeli"));
-        mUsers.add(new User("ahmad", "ahmadi"));
-        mUsers.add(new User("mamad", "mamadi"));
-        mUsers.add(new User("hesam", "chepeli"));
-        mUsers.add(new User("amir", "amiri"));
-        mUsers.add(new User("reza", "rezayi"));
-        mUsers.add(new User("ahmad", "ahmadi"));
-        mUsers.add(new User("mamad", "mamadi"));
-        mUsers.add(new User("hesam", "chepeli"));
+    }
 
 
-        return mUsers;
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.add) {
+            mUsers.add(new User("mamad", "mamadi"));
+            myRecyclerAdapter.addUser(mUsers);
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
