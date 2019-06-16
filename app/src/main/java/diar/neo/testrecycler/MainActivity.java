@@ -1,6 +1,7 @@
 package diar.neo.testrecycler;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.MenuItemCompat;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -8,6 +9,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.SearchView;
+import android.widget.SearchView.OnQueryTextListener;
 
 import com.mikepenz.itemanimators.AlphaCrossFadeAnimator;
 import com.mikepenz.itemanimators.BaseItemAnimator;
@@ -52,26 +55,36 @@ public class MainActivity extends AppCompatActivity {
 
         mUsers.add(new User("amir", "amiri"));
         mUsers.add(new User("reza", "rezayi"));
-        mUsers.add(new User("amir", "amiri"));
-        mUsers.add(new User("reza", "rezayi"));
-        mUsers.add(new User("amir", "amiri"));
-        mUsers.add(new User("reza", "rezayi"));
-        mUsers.add(new User("amir", "amiri"));
-        mUsers.add(new User("reza", "rezayi"));
-        mUsers.add(new User("amir", "amiri"));
-        mUsers.add(new User("reza", "rezayi"));
-        mUsers.add(new User("amir", "amiri"));
-        mUsers.add(new User("reza", "rezayi"));
-        mUsers.add(new User("amir", "amiri"));
-        mUsers.add(new User("reza", "rezayi"));
+        mUsers.add(new User("hasan", "hasani"));
+
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
+        MenuItem search = menu.findItem(R.id.serach);
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(search);
+        doSearch(searchView);
 
         return super.onCreateOptionsMenu(menu);
+    }
+
+    private void doSearch(SearchView searchView) {
+
+        searchView.setOnQueryTextListener(new OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                myRecyclerAdapter.getFilter().filter(newText);
+
+                return true;
+            }
+        });
     }
 
     @Override

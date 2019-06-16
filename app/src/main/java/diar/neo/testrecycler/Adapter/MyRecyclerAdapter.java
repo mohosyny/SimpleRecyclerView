@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -13,6 +15,8 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.net.UnknownServiceException;
+import java.util.ArrayList;
 import java.util.List;
 
 import diar.neo.testrecycler.Adapter.MyRecyclerAdapter.MyViewHolder;
@@ -20,15 +24,17 @@ import diar.neo.testrecycler.Model.User;
 import diar.neo.testrecycler.R;
 import diar.neo.testrecycler.SecondActivity;
 
-public class MyRecyclerAdapter extends RecyclerView.Adapter<MyViewHolder> {
+public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.MyViewHolder> implements Filterable {
     private Context mContext;
     private List<User> mUsers;
+    private List<User> filteredUsers;
 
 
     public MyRecyclerAdapter(Context context, List<User> users) {
 
         mUsers = users;
         mContext = context;
+        filteredUsers = users;
 
     }
 
@@ -43,7 +49,7 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        holder.txtName.setText(mUsers.get(position).getName() + "   " + mUsers.get(position).getFamilyName());
+        holder.txtName.setText(filteredUsers.get(position).getName() + "   " + filteredUsers.get(position).getFamilyName());
 
         //holder.txtName.setOnClickListener(holder);
         holder.imgRemove.setOnClickListener(holder);
@@ -52,7 +58,49 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyViewHolder> {
 
     @Override
     public int getItemCount() {
-        return mUsers.size();
+        return filteredUsers.size();
+    }
+
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+                String string = constraint.toString();
+
+                if (string.isEmpty()) {
+
+                    filteredUsers = mUsers;
+
+                } else {
+
+                    List<User> filterList = new ArrayList();
+                    for (User user : mUsers) {
+
+                        if (user.getName().toLowerCase().contains(string) || user.getFamilyName().toLowerCase().contains(string)) {
+
+                            filterList.add(user);
+
+                        }
+
+
+                    }
+
+                    filteredUsers = filterList;
+
+                }
+
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = filteredUsers;
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+
+                notifyDataSetChanged();
+            }
+        };
     }
 
 
